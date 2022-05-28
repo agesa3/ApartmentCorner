@@ -23,4 +23,5 @@ public class Apartment {
     private String price;
     private String bedrooms;
     private String bathrooms;
+    private ApartmentOwner apartmentOwner;
 }
