@@ -9,9 +9,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApartmentOwner {
-    private String id;
+    private int id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private String email;
+
+
 }

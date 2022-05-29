@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface ApartmentService {
 
-    void saveApartment(Apartment apartment);
+    Apartment saveApartment(Apartment apartment);
 
-    void deleteApartment(Apartment apartment);
+    void deleteApartment(int id);
 
     Apartment findApartmentById(int id);
 
@@ -19,5 +19,4 @@ public interface ApartmentService {
 
     void deleteAllApartments();
 
-    boolean apartmentExists(Apartment apartment);
 }

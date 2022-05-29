@@ -14,13 +14,13 @@ public class ApartmentServiceImpl implements ApartmentService {
     public ApartmentRepository apartmentRepository;
 
     @Override
-    public void saveApartment(Apartment apartment) {
-        apartmentRepository.save(apartment);
+    public Apartment saveApartment(Apartment apartment) {
+       return apartmentRepository.save(apartment);
     }
 
     @Override
-    public void deleteApartment(Apartment apartment) {
-        apartmentRepository.delete(apartment);
+    public void deleteApartment(int id) {
+        apartmentRepository.deleteById(id);
 
     }
 
@@ -42,6 +42,7 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Override
     public List<Apartment> findAllApartments() {
+        System.out.println("Getting data from DB: " + apartmentRepository.findAll());
         return apartmentRepository.findAll();
     }
 
@@ -50,8 +51,4 @@ public class ApartmentServiceImpl implements ApartmentService {
         apartmentRepository.deleteAll();
     }
 
-    @Override
-    public boolean apartmentExists(Apartment apartment) {
-        return apartmentRepository.existsById(apartment.getId());
-    }
 }
