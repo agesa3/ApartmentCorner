@@ -7,7 +7,7 @@ public class ApartmentOwnerMappers {
 
     public static ApartmentOwnerResponseDto mapToApartmentOwnerResponseDto(ApartmentOwner apartmentOwner) {
         return ApartmentOwnerResponseDto.builder()
-                .id(apartmentOwner.getId().toString())
+                .id(apartmentOwner.getOwnerId())
                 .firstName(apartmentOwner.getFirstName())
                 .lastName(apartmentOwner.getLastName())
                 .email(apartmentOwner.getEmail())

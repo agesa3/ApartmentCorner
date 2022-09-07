@@ -11,6 +11,7 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class ApartmentOwnerServiceImpl implements ApartmentOwnerService {
     @Override
     public void addOwner(ApartmentOwnerRequestDto apartmentOwnerDto) {
         ApartmentOwner apartmentOwner = ApartmentOwner.builder()
-                .id(new ObjectId())
+                .ownerId(String.valueOf(new ObjectId()))
                 .firstName(apartmentOwnerDto.getFirstName())
                 .lastName(apartmentOwnerDto.getLastName())
                 .email(apartmentOwnerDto.getEmail())
@@ -31,7 +32,7 @@ public class ApartmentOwnerServiceImpl implements ApartmentOwnerService {
                 .idNumber(apartmentOwnerDto.getIdNumber())
                 .build();
         apartmentOwnerRepository.save(apartmentOwner);
-        log.info("ApartmentOwner {} is saved", apartmentOwner.getId());
+        log.info("ApartmentOwner {} is saved", apartmentOwner.getOwnerId());
     }
 
     @Override
@@ -40,4 +41,25 @@ public class ApartmentOwnerServiceImpl implements ApartmentOwnerService {
         return allOwners.stream().map(ApartmentOwnerMappers::mapToApartmentOwnerResponseDto).toList();
 
     }
+
+    @Override
+    public String updateOwner(ApartmentOwnerRequestDto apartmentOwnerDto, String ownerId) {
+        ApartmentOwner apartmentOwner = apartmentOwnerRepository.findById(ownerId).orElseThrow();
+        apartmentOwner.setFirstName(apartmentOwnerDto.getFirstName());
+        apartmentOwner.setLastName(apartmentOwnerDto.getLastName());
+        apartmentOwner.setEmail(apartmentOwnerDto.getEmail());
+        apartmentOwner.setLocation(apartmentOwnerDto.getLocation());
+        apartmentOwner.setPhoneNumber(apartmentOwnerDto.getPhoneNumber());
+        apartmentOwner.setIdNumber(apartmentOwnerDto.getIdNumber());
+        apartmentOwnerRepository.save(apartmentOwner);
+        log.info("ApartmentOwner {} is updated", apartmentOwner.getOwnerId());
+        return "Owner updated successfully";
+    }
+
+    @Override
+    public ApartmentOwnerResponseDto getOwnerById(String ownerId) {
+        ApartmentOwner apartmentOwner = apartmentOwnerRepository.findById(ownerId).orElseThrow();
+        return ApartmentOwnerMappers.mapToApartmentOwnerResponseDto(apartmentOwner);
+    }
+
 }

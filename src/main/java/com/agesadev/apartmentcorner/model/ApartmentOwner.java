@@ -15,7 +15,7 @@ public class ApartmentOwner {
 
 
     @Id
-    private ObjectId id;
+    private String ownerId;
     private String firstName;
     private String lastName;
     private String phoneNumber;

@@ -8,7 +8,13 @@ import java.util.List;
 public interface ApartmentOwnerService {
 
     void addOwner(ApartmentOwnerRequestDto apartmentOwnerDto);
+
     List<ApartmentOwnerResponseDto> getAllOwners();
 
+    //update owner
+    String updateOwner(ApartmentOwnerRequestDto apartmentOwnerDto, String ownerId);
+
+    //find by id
+    ApartmentOwnerResponseDto getOwnerById(String ownerId);
 
 }
