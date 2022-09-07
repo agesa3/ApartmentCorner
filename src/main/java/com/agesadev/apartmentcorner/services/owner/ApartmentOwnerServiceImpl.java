@@ -1,36 +1,43 @@
 package com.agesadev.apartmentcorner.services.owner;
 
+import com.agesadev.apartmentcorner.dto.owner.ApartmentOwnerRequestDto;
+import com.agesadev.apartmentcorner.dto.owner.ApartmentOwnerResponseDto;
+import com.agesadev.apartmentcorner.mapper.ApartmentOwnerMappers;
 import com.agesadev.apartmentcorner.model.ApartmentOwner;
 import com.agesadev.apartmentcorner.repository.ApartmentOwnerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class ApartmentOwnerServiceImpl implements ApartmentOwnerService {
 
-    @Autowired
-    private ApartmentOwnerRepository apartmentOwnerRepository;
+    private final ApartmentOwnerRepository apartmentOwnerRepository;
 
     @Override
-    public void addOwner(ApartmentOwner apartmentOwner) {
+    public void addOwner(ApartmentOwnerRequestDto apartmentOwnerDto) {
+        ApartmentOwner apartmentOwner = ApartmentOwner.builder()
+                .id(new ObjectId())
+                .firstName(apartmentOwnerDto.getFirstName())
+                .lastName(apartmentOwnerDto.getLastName())
+                .email(apartmentOwnerDto.getEmail())
+                .location(apartmentOwnerDto.getLocation())
+                .phoneNumber(apartmentOwnerDto.getPhoneNumber())
+                .idNumber(apartmentOwnerDto.getIdNumber())
+                .build();
         apartmentOwnerRepository.save(apartmentOwner);
-
+        log.info("ApartmentOwner {} is saved", apartmentOwner.getId());
     }
 
     @Override
-    public List<ApartmentOwner> getAllOwners() {
-        return apartmentOwnerRepository.findAll();
-    }
+    public List<ApartmentOwnerResponseDto> getAllOwners() {
+        List<ApartmentOwner> allOwners = apartmentOwnerRepository.findAll();
+        return allOwners.stream().map(ApartmentOwnerMappers::mapToApartmentOwnerResponseDto).toList();
 
-    @Override
-    public ApartmentOwner findApartmentOwnerById(int id) {
-        return apartmentOwnerRepository.findById(id).get();
-    }
-
-    @Override
-    public ApartmentOwner findByEmail(String email) {
-        return apartmentOwnerRepository.findByEmail(email);
     }
 }
